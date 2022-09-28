@@ -1,6 +1,11 @@
 array = [1,2,33,3,4,5]
 array2 = []
 
+// /!\/!\/!\/!\
+//  TO ACHANDO QUE ENTENDI TOTALMENTE ERRADO A ATIVIDADE
+// ME AVISE PFV 
+// /!\/!\/!\/!\
+
 function minhaCallBackForEach(element, index, array) {
   return array2[index] = `Número ${element} na posição: ${index}, veio desse array: ${array}`;
 }
