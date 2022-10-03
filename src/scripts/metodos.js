@@ -1,23 +1,11 @@
 array = [1,2,33,3,4,5]
 array2 = []
 
-function minhaCallBackForEach(element, index, array) {
-  return array2[index] = `Número ${element} na posição: ${index}, veio desse array: ${array}`;
-}
 
-function meuMetodoforEach(array, callback) {
-    for(let i = 0; i < array.length; i++){
-        const valorAtt = array[i]
-        callback(valorAtt, i, array)
-    }
-  }
 
-//   meuMetodoforEach(array, minhaCallBackForEach)
-//   array.forEach(minhaCallBackForEach)
-// console.table(array2)
+console.log(''); console.log('------------ Método MAP'); console.log('');
 
-// ------------ Método MAP
-console.table(array.map(minhaCallBackForEach));
+console.table(array.map(minhaCallBackMap));
 
 function meuMap(array, callback) {
   for(let i = 0; i < array.length; i++){
@@ -26,86 +14,117 @@ function meuMap(array, callback) {
   }  
   return array2
 }
-console.table(meuMap(array, minhaCallBackForEach));
-
-
-// // ------------Método Filter
-console.table(array.filter((elemento) => elemento%2 == 0))
-let arrayY = []
-function minhaFiltrada(arrayX) {
-    arrayY = []
-    for (let i = 0; i < arrayX.length; i++) {
-        if (arrayX[i]%2 == 0) {
-            arrayY.push(arrayX[i])
-        }
-    }
-    return arrayY
+function minhaCallBackMap(element, index, array) {
+  return array2[index] = `Número ${element} na posição: ${index}, veio desse array: ${array}`;
 }
-console.table(minhaFiltrada(array))
+
+console.table(meuMap(array, minhaCallBackMap));
 
 
-//------------Método Reduce
-let juntatudo = array.reduce((controle, valorAtual) =>
-    controle + valorAtual, 13)
-console.log(juntatudo);
+; console.log(''); console.log('------------ Método Filter'); ; console.log('');
+console.table(array.filter((elemento) => elemento%2 == 0))
 
-function minhaReduce(arrayX) {
+function minhaFiltrada(arrayX, callback) {
+    let arrayY = []
+    let arrayXY = []
+    for (let i = 0; i < arrayX.length; i++) {
+            arrayY.push(callback(arrayX[i], i, arrayX))
+    }
+    for (let i = 0; i < arrayY.length; i++) {
+        if (arrayY[i] != undefined) {
+            arrayXY.push(arrayY[i])
+        }        
+    }
+    return arrayXY
+}
+
+function callbackFiltro(elemento, index, array){
+    if(elemento%2 == 0 ){
+        return elemento
+    }
+}
+
+console.table(minhaFiltrada(array, callbackFiltro))
+
+
+; console.log(''); console.log('------------ Método Reduce'); ; console.log('');
+
+console.log(array.reduce((controle, valorAtual) =>
+    controle + valorAtual, 13))
+
+function minhaReduce(arrayX, callback) {
     let base = 13
     for (let i = 0; i < arrayX.length; i++) {
-        base += arrayX[i]       
+        base += callback(arrayX[i], i, arrayX)      
     }
     return base
 }
+function callbackReduce(elemento, index, array){
+   return elemento
+}
+console.log(minhaReduce(array, callbackReduce));
 
-console.log(minhaReduce(array));
 
+; console.log(''); console.log('------------ Método Find'); ; console.log('');
 
-// ------------Método Find
-let find = array.find(elemento => elemento%2 == 0)
-console.table(find)
-function meuFind(arrayX) {
+console.table(array.find(elemento => elemento%2 == 0))
+
+function meuFind(arrayX, callback) {
     for (let i = 0; i < arrayX.length; i++) {
-        if (arrayX[i] %2 == 0) {
-            return arrayX[i]
-        }
+        if (callback(arrayX[i], i, arrayX) != undefined) {
+            return callback(arrayX[i], i, arrayX) 
+        }         
     }
 }
-console.log(meuFind(array))
+
+function callbackFind(elemento, index, array){
+    if (elemento %2 == 0) {
+       return elemento
+    }   
+ }
+console.log(meuFind(array, callbackFind))
 
 
-//------------MetodoIncludes
-function seTiver3ComIncludes(arrayX) {
-    let result = arrayX.includes(3)    
-    return result
-}
-console.log(seTiver3ComIncludes(array))
+; console.log(''); console.log('------------ Método Includes'); ; console.log('');
+console.log(array.includes(3))
 
-function meuIncludes3(arrayX) {
+function meuIncludes3(arrayX, callback) {
     for (let i = 0; i < arrayX.length; i++) {
         for (let idx = 0; idx < arrayX[i].toString().length; idx++) {
-            if (arrayX[i].toString()[idx] == '3') {
-                return true
-            }
-             {
-              
-            }
-        }
-        
+           if (callback(arrayX[i].toString()[idx], i, arrayX) != undefined){
+             return callback(arrayX[i].toString()[idx], i, arrayX)
+           } 
+        }        
     }
+    return false
 }
-console.log(meuIncludes3(array));
+
+function callbackIncludes(elemento, index, array){
+    if (elemento == '3') {
+        return true
+    } 
+ }
+console.log(meuIncludes3(array, callbackIncludes));
 
 
 
-//------------MetodoIndexOf
+; console.log(''); console.log('------------ Método indexOf'); ; console.log('');
 console.log(array.indexOf(3));
-function meuIndexOf(arrayX) {
+
+function meuIndexOf(arrayX, callback) {
     for (let i = 0; i < arrayX.length; i++) {
-        if (arrayX[i] == 3) {
-            return i
-        } 
+        if (callback(arrayX[i], i, arrayX) != undefined) {
+            return callback(arrayX[i], i, arrayX) 
+        }
     }
 }
-console.log(meuIndexOf(array));
+function callbackIndex(elemento, index, array){
+    if (elemento == 3) {
+        return index
+    } 
+ }
+console.log(meuIndexOf(array, callbackIndex));
+
+
 
 
