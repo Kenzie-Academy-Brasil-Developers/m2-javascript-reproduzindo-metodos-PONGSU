@@ -52,17 +52,21 @@ console.table(minhaFiltrada(array, callbackFiltro))
 console.log(array.reduce((controle, valorAtual) =>
     controle + valorAtual, 13))
 
-function minhaReduce(arrayX, callback) {
-    let base = 13
+    let soma = 0
+function minhaReduce(arrayX, callback, valorInicial) {    
     for (let i = 0; i < arrayX.length; i++) {
-        base += callback(arrayX[i], i, arrayX)      
+        callback(valorInicial, arrayX[i], i)
+    }   
+    return soma
+}
+function callbackReduce(acumulador, valorAtual, i){
+    if (i == 0){
+        soma += acumulador + valorAtual
+    }else{
+        soma += valorAtual
     }
-    return base
 }
-function callbackReduce(elemento, index, array){
-   return elemento
-}
-console.log(minhaReduce(array, callbackReduce));
+console.log(minhaReduce(array, callbackReduce, 13));
 
 
 ; console.log(''); console.log('------------ Método Find'); ; console.log('');
@@ -86,14 +90,12 @@ console.log(meuFind(array, callbackFind))
 
 
 ; console.log(''); console.log('------------ Método Includes'); ; console.log('');
-console.log(array.includes(3))
+console.log(array.includes(2))
 
-function meuIncludes3(arrayX, callback) {
+function meuIncludes2(arrayX, valorBuscado) {
     for (let i = 0; i < arrayX.length; i++) {
-        for (let idx = 0; idx < arrayX[i].toString().length; idx++) {
-           if (callback(arrayX[i].toString()[idx], i, arrayX) != undefined){
-             return callback(arrayX[i].toString()[idx], i, arrayX)
-           } 
+        if (arrayX[i] == valorBuscado.toString()) {
+            return true
         }        
     }
     return false
@@ -104,7 +106,7 @@ function callbackIncludes(elemento, index, array){
         return true
     } 
  }
-console.log(meuIncludes3(array, callbackIncludes));
+console.log(meuIncludes2(array, 2));
 
 
 
